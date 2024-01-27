@@ -18,7 +18,11 @@ export const register = async (req: FastifyRequest, reply: FastifyReply) => {
 
     await registerService.execute({ name, email, password });
   } catch (error) {
-    reply.status(409).send();
+    if (error instanceof Error) {
+      return reply.status(409).send({ message: error.message });
+    }
+
+    return reply.status(500).send();
   }
 
   return reply.status(201).send();
