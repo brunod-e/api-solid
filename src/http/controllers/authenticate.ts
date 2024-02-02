@@ -11,7 +11,6 @@ export const authenticate = async (
     email: z.string().email(),
     password: z.string().min(6),
   });
-
   const { email, password } = authenticateBodySchema.parse(req.body);
 
   try {
