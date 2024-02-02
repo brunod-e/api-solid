@@ -9,7 +9,9 @@
     "build": "tsup src --out-dir build",
     "eslint:fix": "eslint --ext .js,.ts src --fix",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:ui": "vitest --ui"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +21,8 @@
     "@types/node": "18.14.1",
     "@typescript-eslint/eslint-plugin": "6.15.0",
     "@typescript-eslint/parser": "6.15.0",
+    "@vitest/coverage-v8": "1.2.2",
+    "@vitest/ui": "1.2.2",
     "eslint": "8.56.0",
     "prisma": "5.7.1",
     "tsup": "6.6.3",
