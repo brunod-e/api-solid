@@ -14,9 +14,6 @@ describe("Authenticate Service", () => {
   });
 
   it("should be able to authenticate", async () => {
-    usersRepository = new InMemoryUsersRepository();
-    sut = new AuthenticateService(usersRepository);
-
     await usersRepository.create({
       name: "John Doe",
       email: "john@doe.com",
@@ -32,9 +29,6 @@ describe("Authenticate Service", () => {
   });
 
   it("should not be able to authenticate with wrong email", async () => {
-    usersRepository = new InMemoryUsersRepository();
-    sut = new AuthenticateService(usersRepository);
-
     await expect(
       sut.execute({
         email: "john@doe.com",
@@ -44,9 +38,6 @@ describe("Authenticate Service", () => {
   });
 
   it("should not be able to authenticate with wrong email", async () => {
-    usersRepository = new InMemoryUsersRepository();
-    sut = new AuthenticateService(usersRepository);
-
     await usersRepository.create({
       name: "John Doe",
       email: "john@doe.com",

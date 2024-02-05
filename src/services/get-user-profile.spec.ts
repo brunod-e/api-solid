@@ -15,9 +15,6 @@ describe("Get User Profile Service", () => {
   });
 
   it("should be able to get user profile", async () => {
-    usersRepository = new InMemoryUsersRepository();
-    sut = new GetUserProfileService(usersRepository);
-
     const createdUser = await usersRepository.create({
       name: "John Doe",
       email: "john@doe.com",
@@ -33,9 +30,6 @@ describe("Get User Profile Service", () => {
   });
 
   it("should not be able to get user profile with wrong id", async () => {
-    usersRepository = new InMemoryUsersRepository();
-    sut = new GetUserProfileService(usersRepository);
-
     await expect(
       sut.execute({
         userId: "wrong-id",
