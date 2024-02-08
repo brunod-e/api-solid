@@ -4,24 +4,26 @@ import { CheckInService } from "./check-in";
 import { ResourceNotFoundError } from "./errors/resource-not-found-error";
 import { InMemoryGymsRepository } from "@/repositories/in-memory/in-memory-gyms-repository";
 import { Decimal } from "@prisma/client/runtime/library";
+import { MaxDistanceError } from "./errors/max-distance-error";
+import { MaxCheckInsError } from "./errors/max-checkins-error";
 
 let checkInsRepository: InMemoryCheckInsRepository;
 let gymsRepository: InMemoryGymsRepository;
 let sut: CheckInService;
 
 describe("Get User Profile Service", () => {
-  beforeEach(() => {
+  beforeEach(async () => {
     checkInsRepository = new InMemoryCheckInsRepository();
     gymsRepository = new InMemoryGymsRepository();
     sut = new CheckInService(checkInsRepository, gymsRepository);
 
-    gymsRepository.items.push({
+    await gymsRepository.create({
       id: "gym-id",
       title: "Gym",
       description: "Gym description",
       phone: "",
-      latitude: new Decimal(-28.0247286),
-      longitude: new Decimal(-48.8558898),
+      latitude: -28.0247286,
+      longitude: -48.8558898,
     });
 
     vi.useFakeTimers();
@@ -59,7 +61,7 @@ describe("Get User Profile Service", () => {
         userLatitute: -28.0247286,
         userLongitude: -48.8558898,
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxCheckInsError);
   });
 
   it("should be able to check in twice in different days", async () => {
@@ -85,9 +87,7 @@ describe("Get User Profile Service", () => {
   });
 
   it("should not be able to check in on distant gym", async () => {
-    // -28.0247286,-48.8558898
-
-    gymsRepository.items.push({
+    await gymsRepository.create({
       id: "gym-id-2",
       title: "Gym",
       description: "Gym description",
@@ -103,6 +103,6 @@ describe("Get User Profile Service", () => {
         userLatitute: -27.5379856,
         userLongitude: -49.3617558,
       })
-    ).rejects.toBeInstanceOf(Error);
+    ).rejects.toBeInstanceOf(MaxDistanceError);
   });
 });
