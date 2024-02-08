@@ -26,6 +26,11 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
       .slice((page - 1) * 20, page * 20);
   }
 
+  async findById(id: string) {
+    const checkIn = this.items.find(checkIn => checkIn.id === id);
+    return checkIn ?? null;
+  }
+
   async countByUserId(userId: string) {
     return this.items.filter(checkIn => checkIn.user_id === userId).length;
   }
@@ -40,6 +45,16 @@ export class InMemoryCheckInsRepository implements CheckInsRepository {
     };
 
     this.items.push(checkIn);
+
+    return checkIn;
+  }
+
+  async save(checkIn: CheckIn) {
+    const checkInIndex = this.items.findIndex(item => item.id === checkIn.id);
+
+    if (checkInIndex === -1) {
+      this.items[checkInIndex] = checkIn;
+    }
 
     return checkIn;
   }
