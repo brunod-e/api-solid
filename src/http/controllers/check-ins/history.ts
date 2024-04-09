@@ -16,7 +16,7 @@ export const history = async (req: FastifyRequest, reply: FastifyReply) => {
     page,
   });
 
-  return reply.status(201).send({
+  return reply.status(200).send({
     checkIns,
   });
 };
