@@ -23,7 +23,6 @@ export const authenticate = async (
       {
         sign: {
           sub: user.id,
-          expiresIn: "1d",
         },
       }
     );
